@@ -16,9 +16,10 @@ def renderFormGet():
 @app.route('/submitformGet.html', methods=['GET'])
 def renderTableGet():
     firstname = request.args.get('fname')
-    print(firstname)
     lastname = request.args.get('lname')
-    output = render_template('table.html', firstname=firstname, lastname=lastname)
+    party = request.args.get('party')
+    email = request.args.get('email')
+    output = render_template('table.html', firstname=firstname, lastname=lastname, party=party, email=email)
     return output 
 
 @app.route('/form-post.html')
@@ -30,17 +31,19 @@ def renderFormPost():
 def renderTablePost():
     firstname = request.form.get('fname')
     lastname = request.form.get('lname')
-    output = render_template('table.html', firstname=firstname, lastname=lastname)
+    party = request.form.get('party')
+    email = request.form.get('email')
+    output = render_template('table.html', firstname=firstname, lastname=lastname, party=party, email=email)
     return output 
 
-
+'''
 @app.route('/table-list.html')
 def renderMultiple():
     exampleCollection = [{'firstname':'test1', 'lastname':'test2'},
                          {'firstname':'test3', 'lastname':'test4'}]
     output = render_template('table-list.html', collection=exampleCollection)
     return output 
-
+'''
 
 if __name__ == '__main__':
-    app.run(port=8000, debug=True, host="0.0.0.0")
+    app.run(port=8000, host="0.0.0.0")

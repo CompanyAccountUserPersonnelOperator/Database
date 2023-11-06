@@ -1,0 +1,45 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  MT Legislature
+{% endblock %}
+
+{% block content %}
+
+<table>
+  <caption>MT legislature table</caption>
+  <tr>
+      <th style="width:25%">Last Name</th>
+      <th style="width:25%">First Name</th>
+      <th style="width:10%">Party</th>
+      <th>Email</th>
+  </tr>
+  <tr>
+      <td>Abbott</td>
+      <td>Kim</td>
+      <td>D</td>
+      <td>Kim.Abbott@legmt.gov
+      </td>
+  </tr>
+  <tr>
+      <td>Anderson</td>
+      <td>Fred</td>
+      <td>R</td>
+      <td>Fred.Anderson@legmt.gov
+      </td>
+  </tr>
+  <tr>
+      <td>Barker</td>
+      <td>Brad</td>
+      <td>R</td>
+      <td>Brad.Barker@legmt.gov
+      </td>
+  </tr>
+  <tr>
+      <td>{{lastname}}</td>
+      <td>{{firstname}}</td>
+      <td>{{party}}</td>
+      <td>{{email}}</td>
+  </tr>
+</table>
+{% endblock %}

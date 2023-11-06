@@ -1,0 +1,27 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  Adding to the table
+{% endblock %}
+
+{% block content %}
+
+<table>
+  {% for row in collection %}
+  <tr>
+    <td>
+      {{row['lastname']}}
+    </td>
+    <td>
+      {{row['firstname']}}
+    </td>
+    <td>
+      {{row['party']}}
+    </td>
+    <td>
+      {{row['email']}}
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+{% endblock %}
