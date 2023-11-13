@@ -1,0 +1,46 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  MT Legislature
+{% endblock %}
+
+{% block content %}
+
+<table>
+  <tr>
+    <th>ID</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>Email</th>
+  </tr>
+  {% for row in collection %}
+  <tr>
+    <td>
+      {{row[0]}}
+    </td>
+    <td>
+      {{row[1]}}
+    </td>
+    <td>
+      {{row[2]}}
+    </td>
+    <td>
+      {{row[3]}}
+    </td>
+    <td>
+      <a href="?delete=true&id={{row[0]}}">Delete</a><br />
+      <a href="/updateRep?id={{row[0]}}">Change</a><br />
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+<h1>Enter new values here</h1>
+<form action="">
+  <div>
+    First Name: <input type="text" name="fname"><br />
+    Last Name: <input type="text" name="lname"><br />
+    Email: <input type="text" name="email"><br />
+    <input type="submit" value="Submit">
+  </div>
+</form>
+{% endblock %}
