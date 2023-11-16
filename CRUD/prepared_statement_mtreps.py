@@ -12,6 +12,7 @@ def showReps():
     with open('secrets.json', 'r') as secretsFile:
         creds = json.load(secretsFile)['mysqlCredentials']
     connection = mysql.connector.connect(**creds)
+
     mycursor = connection.cursor()
     newFirstName = request.args.get('fname')
     newLastName = request.args.get('lname')
@@ -24,7 +25,6 @@ def showReps():
         mycursor.execute("DELETE FROM reps WHERE repID=%s", (deleteID,))
         connection.commit()
 
-    # Fetch the current values of the reps table
     mycursor.execute("SELECT repID, lastname, firstname, email FROM reps")
     myresult = mycursor.fetchall()
     mycursor.close()
@@ -36,26 +36,27 @@ def updateRep():
     with open('secrets.json', 'r') as secretsFile:
         creds = json.load(secretsFile)['mysqlCredentials']
     connection = mysql.connector.connect(**creds)
+
     id = request.args.get('id')
     newFirstName = request.args.get('fname')
     newLastName = request.args.get('lname')
     newEmail = request.args.get('email')
     if id is None:
-        return "Error, id not specified"
+        return "Error, ID not specified"
     elif newFirstName is not None and newLastName is not None:
         mycursor = connection.cursor()
         mycursor.execute("UPDATE reps SET lastname=%s, firstname=%s, email=%s WHERE repID=%s", (newLastName, newFirstName, newEmail, id))
         mycursor.close()
         connection.commit()
         connection.close()
-        return redirect(url_for('rep-list.html'))
+        return redirect(url_for('showReps'))
 
     mycursor = connection.cursor()
-    mycursor.execute("SELECT * FROM reps WHERE repID=%s", (id,))
-    _, existingLName, existingFName, existingEmail = mycursor.fetchone()
+    mycursor.execute("SELECT repID, lastname, firstname, email FROM reps WHERE repID=%s", (id,))
+    id, existingLName, existingFName, existingEmail = mycursor.fetchone()
     mycursor.close()
     connection.close()
-    return render_template('rep-update.html', id=id, existingFName=existingFName, existingLName=existingLName,existingEmail=existingEmail)
+    return render_template('rep-update.html', id=id, existingFName=existingFName, existingLName=existingLName, existingEmail=existingEmail)
 
 
 if __name__ == '__main__':
