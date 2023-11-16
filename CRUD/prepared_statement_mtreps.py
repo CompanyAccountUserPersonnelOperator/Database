@@ -21,11 +21,11 @@ def showReps():
         connection.commit()
     elif request.args.get('delete') == 'true':
         deleteID = request.args.get('id')
-        mycursor.execute("DELETE from reps where repID=%s", (deleteID,))
+        mycursor.execute("DELETE FROM reps WHERE repID=%s", (deleteID,))
         connection.commit()
 
     # Fetch the current values of the reps table
-    mycursor.execute("Select repID, lastname, firstname, email from reps")
+    mycursor.execute("SELECT repID, lastname, firstname, email FROM reps")
     myresult = mycursor.fetchall()
     mycursor.close()
     connection.close()
@@ -44,14 +44,14 @@ def updateRep():
         return "Error, id not specified"
     elif newFirstName is not None and newLastName is not None:
         mycursor = connection.cursor()
-        mycursor.execute("UPDATE reps SET lastname=%s, firstname=%s where repID=%s", (newLastName, newFirstName, id))
+        mycursor.execute("UPDATE reps SET lastname=%s, firstname=%s, email=%s WHERE repID=%s", (newLastName, newFirstName, newEmail id))
         mycursor.close()
         connection.commit()
         connection.close()
-        return redirect(url_for('showReps'))
+        return redirect(url_for('rep-update.html'))
 
     mycursor = connection.cursor()
-    mycursor.execute("select * from reps where repID=%s", (id,))
+    mycursor.execute("SELECT * FROM reps WHERE repID=%s", (id,))
     _, existingLName, existingFName, existingEmail = mycursor.fetchone()
     mycursor.close()
     connection.close()
