@@ -44,11 +44,11 @@ def updateRep():
         return "Error, id not specified"
     elif newFirstName is not None and newLastName is not None:
         mycursor = connection.cursor()
-        mycursor.execute("UPDATE reps SET lastname=%s, firstname=%s, email=%s WHERE repID=%s", (newLastName, newFirstName, newEmail id))
+        mycursor.execute("UPDATE reps SET lastname=%s, firstname=%s, email=%s WHERE repID=%s", (newLastName, newFirstName, newEmail, id))
         mycursor.close()
         connection.commit()
         connection.close()
-        return redirect(url_for('rep-update.html'))
+        return redirect(url_for('rep-list.html'))
 
     mycursor = connection.cursor()
     mycursor.execute("SELECT * FROM reps WHERE repID=%s", (id,))
