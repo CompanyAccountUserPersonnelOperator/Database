@@ -1,0 +1,21 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  Updating MT Reps
+{% endblock %}
+
+{% block content %}
+
+<h2>Enter New name and Email here.</h2>
+<form action="">
+  <div>
+    <input type="hidden" name="id" value="{{id}}">
+    First Name: <input type="text" name="fname" value="{{existingFName}}"><br />
+    Last Name: <input type="text" name="lname" value="{{existingLName}}"><br />
+    District: <input type="text" name="district" value="{{existingDistrict}}"><br />
+    Party: <input type="text" name="party" value="{{existingParty}}"><br />
+    <input type="submit" value="Submit">
+  </div>
+</form>
+<a href="/">Return to list</a>
+{% endblock %}

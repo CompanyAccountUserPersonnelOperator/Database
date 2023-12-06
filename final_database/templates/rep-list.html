@@ -1,0 +1,59 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  MT Legislature
+{% endblock %}
+
+{% block content %}
+
+<table>
+  <tr>
+    <th>ID</th>
+    <th>First Name</th>
+    <th>Last Name</th>
+    <th>District</th>
+    <th>Party</th>
+  </tr>
+  {% for row in collection %}
+  <tr>
+    <td>
+      {{row[0]}}
+    </td>
+    <td>
+      {{row[1]}}
+    </td>
+    <td>
+      {{row[2]}}
+    </td>
+    <td>
+      {{row[3]}}
+    </td>
+    <td>
+      {{row[4]}}
+    </td>
+    <td>
+      {{row[5]}}
+    </td>
+    <td>
+      <a href="?delete=true&id={{row[0]}}">Delete</a><br />
+      <a href="/updateRep?id={{row[0]}}">Change</a><br />
+    </td>
+  </tr>
+  {% endfor %}
+</table>
+<h1>Enter new Senator here</h1>
+<form action="">
+  <div>
+    First Name: <input type="text" name="fname"><br />
+    Last Name: <input type="text" name="lname"><br />
+    District: <input type="text" name="district"><br />
+    Party: <input type="radio" id="democrat" name="party" value="D">
+    <label for="democrat">Democrat</label>
+    <input type="radio" id="republican" name="party" value="R">
+    <label for="republican">Republican</label>
+    <input type="radio" id="independent" name="party" value="I">
+    <label for="independent">Independent</label><br />
+    <input type="submit" value="Submit">
+  </div>
+</form>
+{% endblock %}
