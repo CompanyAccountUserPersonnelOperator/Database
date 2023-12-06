@@ -13,7 +13,12 @@
     First Name: <input type="text" name="fname" value="{{existingFName}}"><br />
     Last Name: <input type="text" name="lname" value="{{existingLName}}"><br />
     District: <input type="text" name="district" value="{{existingDistrict}}"><br />
-    Party: <input type="text" name="party" value="{{existingParty}}"><br />
+    Party: <input type="radio" id="democrat" name="party" value="D">
+    <label for="democrat">Democrat</label>
+    <input type="radio" id="republican" name="party" value="R">
+    <label for="republican">Republican</label>
+    <input type="radio" id="independent" name="party" value="I">
+    <label for="independent">Independent</label><br />
     <input type="submit" value="Submit">
   </div>
 </form>
