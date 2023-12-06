@@ -19,11 +19,11 @@ def showReps():
     newDistrict = request.args.get('district')
     newParty = request.args.get('party')
     if newFirstName is not None and newLastName is not None and newDistrict is not None:
-        mycursor.execute("INSERT INTO senators (firstname, lastname, district, party) values (%s, %s, %s, %s, %s)", (newFirstName, newLastName, newDistrict, newParty ))
+        mycursor.execute("INSERT INTO senators (firstname, lastname, district, party) values (%s, %s, %s, %s)", (newFirstName, newLastName, newDistrict, newParty ))
         connection.commit()
     elif request.args.get('delete') == 'true':
         deleteID = request.args.get('id')
-        mycursor.execute("DELETE FROM reps WHERE repID=%s", (deleteID,))
+        mycursor.execute("DELETE FROM senators WHERE repID=%s", (deleteID,))
         connection.commit()
 
     mycursor.execute("SELECT repID, firstname, lastname, district, party FROM senators")
