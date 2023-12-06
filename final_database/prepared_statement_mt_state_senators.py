@@ -6,8 +6,11 @@ import mysql.connector, os, json
 
 app = Flask(__name__)
 
+@app.route('/')
+def index():
+    return render_template('index.html')
 
-@app.route('/', methods=['GET'])
+@app.route('/rep-list.html', methods=['GET'])
 def showReps():
     with open('secrets.json', 'r') as secretsFile:
         creds = json.load(secretsFile)['mysqlCredentials']
