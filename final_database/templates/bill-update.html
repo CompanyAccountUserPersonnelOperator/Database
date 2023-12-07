@@ -1,0 +1,20 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  Updating MT Bills
+{% endblock %}
+
+{% block content %}
+
+<h2>Enter new bill name, category, date here.</h2>
+<form action="">
+  <div>
+    <input type="hidden" name="id" value="{{id}}">
+    Name: <input type="text" name="name" value="{{existingName}}"><br />
+    Category: <input type="text" name="category" value="{{existingCategory}}"><br />
+    Date: <input type="text" name="date" value="{{existingDate}}"><br />
+    <input type="submit" value="Submit">
+  </div>
+</form>
+<a href="/">Return to Index</a>
+{% endblock %}
