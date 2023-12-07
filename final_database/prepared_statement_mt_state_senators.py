@@ -35,6 +35,32 @@ def showReps():
     connection.close()
     return render_template('rep-list.html', collection=myresult)
 
+
+@app.route('/bill-list.html', methods=['GET'])
+def showBills():
+    with open('secrets.json', 'r') as secretsFile:
+        creds = json.load(secretsFile)['mysqlCredentials']
+    connection = mysql.connector.connect(**creds)
+
+    mycursor = connection.cursor()
+    newName = request.args.get('name')
+    newCategory = request.args.get('category')
+    newDate = request.args.get('date')
+    if newName is not None and newCategory is not None and newDate is not None:
+        mycursor.execute("INSERT INTO bills (billname, category, date) values (%s, %s, %s)", (newName, newCategory, newDate))
+        connection.commit()
+    elif request.args.get('delete') == 'true':
+        deleteID = request.args.get('id')
+        mycursor.execute("DELETE FROM bills WHERE billID=%s", (deleteID,))
+        connection.commit()
+
+    mycursor.execute("SELECT billID, billname, category, date FROM bills")
+    myresult = mycursor.fetchall()
+    mycursor.close()
+    connection.close()
+    return render_template('bill-list.html', collection=myresult)
+
+
 @app.route("/updateRep")
 def updateRep():
     with open('secrets.json', 'r') as secretsFile:
@@ -64,31 +90,6 @@ def updateRep():
     return render_template('rep-update.html', id=id, existingFName=existingFName, existingLName=existingLName, existingDistrict=existingDistrict, existingParty=existingParty)
 
 
-@app.route('/bill-list.html', methods=['GET'])
-def showBills():
-    with open('secrets.json', 'r') as secretsFile:
-        creds = json.load(secretsFile)['mysqlCredentials']
-    connection = mysql.connector.connect(**creds)
-
-    mycursor = connection.cursor()
-    newName = request.args.get('name')
-    newCategory = request.args.get('category')
-    newDate = request.args.get('date')
-    if newName is not None and newCategory is not None and newDate is not None:
-        mycursor.execute("INSERT INTO bills (billname, category, date) values (%s, %s, %s)", (newName, newCategory, newDate))
-        connection.commit()
-    elif request.args.get('delete') == 'true':
-        deleteID = request.args.get('id')
-        mycursor.execute("DELETE FROM bills WHERE billID=%s", (deleteID,))
-        connection.commit()
-
-    mycursor.execute("SELECT billID, billname, category, date FROM bills")
-    myresult = mycursor.fetchall()
-    mycursor.close()
-    connection.close()
-    return render_template('bill-list.html', collection=myresult)
-
-
 @app.route("/updateBill")
 def updateBill():
     with open('secrets.json', 'r') as secretsFile:
@@ -101,7 +102,7 @@ def updateBill():
     newDate = request.args.get('date')
     if id is None:
         return "Error, ID not specified"
-    elif newName is not None and newCategory is not None and newDate is not None:
+    elif newName is not None:
         mycursor = connection.cursor()
         mycursor.execute("UPDATE bills SET billname=%s, category=%s, date=%s WHERE billID=%s", (newName, newCategory, newDate, id))
         mycursor.close()
