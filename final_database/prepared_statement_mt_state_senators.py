@@ -102,7 +102,7 @@ def updateBill():
     newDate = request.args.get('date')
     if id is None:
         return "Error, ID not specified"
-    elif newName is not None:
+    elif newName is not None and newCategory is not None:
         mycursor = connection.cursor()
         mycursor.execute("UPDATE bills SET billname=%s, category=%s, date=%s WHERE billID=%s", (newName, newCategory, newDate, id))
         mycursor.close()
