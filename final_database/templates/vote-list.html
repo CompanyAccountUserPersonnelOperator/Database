@@ -1,0 +1,24 @@
+{% extends 'base.html' %}
+
+{% block header %}
+  Add Vote
+{% endblock %}
+
+{% block content %}
+
+<h1>Choose Senator and Bill to vote.</h1>
+<form action="">
+    <div>
+        Senator ID: <input type="text" name="senator"><br />
+        Bill ID: <input type="text" name="bill"><br />
+        Vote: <input type="radio" id="yes" name="vote" value="Y">
+        <label for="yes">Yes</label>
+        <input type="radio" id="no" name="vote" value="N">
+        <label for="no">NO</label>
+        <input type="radio" id="absent" name="vote" value="A">
+        <label for="absent">Absent</label><br />
+        <input type="submit" value="Submit">
+    </div>
+</form>
+<a href="/">Return to Index</a>
+{% endblock %}

@@ -1,16 +1,15 @@
 {% extends 'base.html' %}
 
 {% block header %}
-  MT State Bills
+  MT State Senator Vote
 {% endblock %}
 
 {% block content %}
 
 <table>
   <tr>
-    <th>ID</th>
     <th>Bill Name</th>
-    <th>Category</th>
+    <th>Vote</th>
     <th>Date</th>
   </tr>
   {% for row in collection %}
@@ -27,19 +26,13 @@
     <td>
       {{row[3]}}
     </td>
-    <td>
-      <a href="?delete=true&id={{row[0]}}">Delete</a><br />
-      <a href="/updateBill?id={{row[0]}}">Update</a><br />
-    </td>
   </tr>
   {% endfor %}
 </table>
-<h1>Enter new bill here</h1>
+<h1>Enter Senator Info</h1>
 <form action="">
   <div>
-    Bill Name: <input type="text" name="name"><br />
-    Category: <input type="text" name="category"><br />
-    Date: <input type="text" name="date"><br />
+    Senator ID: <input type="text" name="bID"><br />
     <input type="submit" value="Submit">
   </div>
 </form>

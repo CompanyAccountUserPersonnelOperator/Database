@@ -10,6 +10,7 @@ app = Flask(__name__)
 def index():
     return render_template('index.html')
 
+
 @app.route('/rep-list.html', methods=['GET'])
 def showReps():
     with open('secrets.json', 'r') as secretsFile:
@@ -59,6 +60,63 @@ def showBills():
     mycursor.close()
     connection.close()
     return render_template('bill-list.html', collection=myresult)
+
+
+@app.route('/bill-vote-list.html', methods=['GET'])
+def showVote():
+    with open('secrets.json', 'r') as secretsFile:
+        creds = json.load(secretsFile)['mysqlCredentials']
+    connection = mysql.connector.connect(**creds)
+
+    mycursor = connection.cursor()
+    Bid = request.args.get('bID')
+    mycursor.execute("""SELECT bills.billname, senate_votes.vote, bills.date FROM bills
+    JOIN senate_votes ON bills.billID = senate_votes.billID
+    JOIN senators ON senators.repID = senate_votes.repID
+    WHERE senators.repID = %s""", (Bid,))
+    myresult = mycursor.fetchall()
+    mycursor.close()
+    connection.close()
+    return render_template('bill-vote-list.html',
+    collection=myresult)
+
+
+@app.route('/sen-vote-list.html', methods=['GET'])
+def showSen():
+    with open('secrets.json', 'r') as secretsFile:
+        creds = json.load(secretsFile)['mysqlCredentials']
+    connection = mysql.connector.connect(**creds)
+
+    mycursor = connection.cursor()
+    senID = request.args.get('SenID')
+    mycursor.execute("""SELECT senators.firstname, senators.lastname, senators.party, bills.billname, senate_votes.vote
+    FROM senators
+    JOIN senate_votes ON senators.repID = senate_votes.repID
+    JOIN bills ON bills.billID = senate_votes.billID
+    WHERE bills.billID = %s""", (senID,))
+    myresult = mycursor.fetchall()
+    mycursor.close()
+    connection.close()
+    return render_template('sen-vote-list.html',
+    collection=myresult)
+
+
+@app.route("/vote-list.html", methods=['GET'])
+def addVote():
+    with open('secrets.json', 'r') as secretsFile:
+        creds = json.load(secretsFile)['mysqlCredentials']
+    connection = mysql.connector.connect(**creds)
+
+    mycursor = connection.cursor()
+    senateid = request.args.get('senator')
+    billid = request.args.get('bill')
+    vote = request.args.get('vote')
+    if senateid is not None and billid is not None:
+        mycursor.execute("UPDATE senate_votes SET vote=%s WHERE repID=%s AND billID=%s", (vote, senateid, billid))
+        mycursor.close()
+        connection.commit()
+        connection.close()
+    return render_template("vote-list.html")
 
 
 @app.route("/updateRep")
@@ -117,6 +175,6 @@ def updateBill():
     connection.close()
     return render_template('bill-update.html', id=id, existingName=existingName, existingCategory=existingCategory, existingDate=existingDate)
 
-
+ 
 if __name__ == '__main__':
     app.run(port=8000, host="0.0.0.0")
